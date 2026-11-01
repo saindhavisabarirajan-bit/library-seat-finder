@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Library Seat Finder · SRMIST Kattankulathur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#1c130c;color:#f4ecdc;font:15px Inter,system-ui,sans-serif}
+button,input,select{font:inherit}
+nav{position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:9;display:flex;gap:18px;align-items:center;padding:8px 20px;border-radius:30px;background:rgba(255,255,255,.75);backdrop-filter:blur(10px);color:#2b1d12;font-weight:600;font-size:13px;white-space:nowrap}
+nav a{color:inherit;text-decoration:none}nav i{width:9px;height:9px;border-radius:50%;background:#3aa76d;display:inline-block;margin-right:6px}nav i.c{background:#d9534f}
+.hero{position:relative;height:100vh;min-height:640px;overflow:hidden;background:radial-gradient(60% 70% at 18% 30%,rgba(255,226,160,.6),transparent 60%),linear-gradient(#dcc3a0,#b98e5f 66%,#2a190c 66%)}
+.win{position:absolute;left:0;top:7%;width:24%;height:52%;background:linear-gradient(90deg,#4a2f18 0 4%,transparent 4% 96%,#4a2f18 96%),linear-gradient(#4a2f18 0 3%,transparent 3% 48%,#4a2f18 48% 51%,transparent 51%),radial-gradient(circle at 40% 35%,#fff7d6,#ffe39a 45%,#8fb06b)}
+.shl{position:absolute;right:0;top:4%;width:26%;height:60%;background:repeating-linear-gradient(0deg,#2a190c 0 5px,transparent 5px 78px),repeating-linear-gradient(90deg,#6a2b22 0 9px,#8a6a3a 9px 15px,#2f4a3a 15px 22px,#a3532b 22px 28px,#4a3320 28px 33px);opacity:.85}
+.ttl{position:absolute;top:12%;left:50%;transform:translateX(-50%);width:min(760px,92vw)}
+.ttl text{font:700 62px 'Playfair Display',serif;fill:#3a2614}
+.sub{position:absolute;top:calc(12% + 150px);width:100%;text-align:center;color:#4a3220;margin:0;font-size:13px;padding:0 12px}
+.row{position:absolute;left:0;right:0;bottom:27%;display:flex;justify-content:center;align-items:flex-end;perspective:1200px;transform:rotateY(calc(var(--mx,0)*7deg));transition:transform .3s}
+.tbl-top{position:absolute;left:0;right:0;bottom:0;height:34%;background:repeating-linear-gradient(90deg,rgba(0,0,0,.08) 0 2px,transparent 2px 7px),linear-gradient(#8a5a30,#5c3a1c 40%,#2a190c)}
+.book{--w:108px;--t:36px;position:relative;width:var(--w);height:var(--h);margin:0 -4px;transform-style:preserve-3d;transform:rotateY(58deg);transition:transform .7s cubic-bezier(.2,.8,.2,1);cursor:pointer;animation:in .9s var(--d) backwards}
+.book:hover{transform:translateY(-24px) translateZ(70px) rotateY(12deg)}
+@keyframes in{from{opacity:0;transform:translateY(60px) rotateY(80deg)}}
+.f{position:absolute;display:block;backface-visibility:hidden;background:var(--c)}
+.cv{inset:0;transform:translateZ(calc(var(--t)/2));padding:14px 10px;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(90deg,rgba(0,0,0,.3),transparent 10%),var(--c);color:#fff;font-family:'Playfair Display',serif}
+.cv strong{font-size:19px;line-height:1.15}.cv small{font:11px Inter,sans-serif;opacity:.9}.cv .bar{height:5px;background:rgba(255,255,255,.3);border-radius:3px;margin-top:5px}.cv .bar i{display:block;height:100%;width:0;background:#fff;border-radius:3px}
+.bk{inset:0;transform:rotateY(180deg) translateZ(calc(var(--t)/2))}
+.sp{width:var(--t);height:100%;left:calc(50% - var(--t)/2);transform:rotateY(-90deg) translateZ(calc(var(--w)/2));display:grid;place-items:center;background:linear-gradient(rgba(0,0,0,.25),transparent 20%,transparent 80%,rgba(0,0,0,.3)),var(--c);color:#fff}
+.sp b{writing-mode:vertical-rl;font:600 13px 'Playfair Display',serif;letter-spacing:.5px}
+.pg{width:var(--t);height:100%;left:calc(50% - var(--t)/2);transform:rotateY(90deg) translateZ(calc(var(--w)/2));background:repeating-linear-gradient(0deg,#f4ecdc 0 2px,#d9cdb5 2px 3px)}
+.tp{width:100%;height:var(--t);top:calc(50% - var(--t)/2);transform:rotateX(90deg) translateZ(calc(var(--h)/2));background:repeating-linear-gradient(90deg,#f4ecdc 0 2px,#d9cdb5 2px 3px)}
+main{max-width:1180px;margin:0 auto;padding:32px 16px 60px}
+.stats{display:flex;flex-wrap:wrap;gap:10px}.stats div{background:#2c1d11;border:1px solid #4a3320;border-radius:12px;padding:10px 18px}.stats b{display:block;font:700 24px 'Playfair Display',serif;color:#ffd98a}.stats span{font-size:12px;opacity:.75}
+.bar2{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:20px 0 14px}.bar2 .sp2{flex:1}
+button{background:#c8902e;color:#2b1d12;border:0;border-radius:9px;padding:8px 14px;font-weight:600;cursor:pointer}button:hover{filter:brightness(1.1)}button:disabled{opacity:.4;cursor:not-allowed}
+button.g{background:#3a2a1b;color:#f4ecdc}button.on{background:#f4ecdc}
+.cols{display:grid;grid-template-columns:1fr 300px;gap:18px}@media(max-width:860px){.cols{grid-template-columns:1fr}}
+.panel{display:none;background:#251810;border:1px solid #4a3320;border-radius:14px;padding:16px}.panel.on{display:block}
+h3{font:600 17px 'Playfair Display',serif;margin:14px 0 8px;color:#ffd98a}h3:first-child{margin-top:0}h3 small{font:12px Inter;opacity:.7;margin-left:8px}
+.tbs,.sg{display:flex;flex-wrap:wrap;gap:8px}.tb{display:grid;gap:3px;padding:5px;background:#4a3320;border-radius:8px}.sg{gap:4px}
+.seat{width:22px;height:22px;padding:0;border-radius:5px;background:#3aa76d;position:relative}.seat[data-ch]::after{content:"⚡";position:absolute;inset:0;font-size:12px;line-height:22px;text-align:center}
+.seat.o{background:#d9534f}.seat.r{background:#e8a317}.seat.u{background:#8a8f98}
+.fl{animation:fl .5s 6;z-index:2}@keyframes fl{50%{outline:3px solid #ff2d95;transform:scale(1.5)}}
+aside{background:#251810;border:1px solid #4a3320;border-radius:14px;padding:16px;align-self:start;position:sticky;top:60px}
+aside label{display:flex;justify-content:space-between;align-items:center;margin:8px 0;font-size:14px}
+input,select{background:#1c130c;color:#f4ecdc;border:1px solid #5a4330;border-radius:7px;padding:6px 8px}
+#res button{display:block;width:100%;text-align:left;margin-top:6px;font-weight:400;font-size:13px}
+.leg{margin-top:14px;font-size:12px;display:flex;gap:16px;flex-wrap:wrap;opacity:.9}.leg i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-2px}
+dialog{background:#2c1d11;color:#f4ecdc;border:1px solid #6b4a2a;border-radius:14px;padding:20px;width:min(380px,92vw)}dialog::backdrop{background:rgba(0,0,0,.6)}
+dialog input{width:100%;margin:4px 0 10px}dialog .bt{display:flex;flex-wrap:wrap;gap:6px}#dinfo{font-size:13px;opacity:.85;margin:0 0 12px;white-space:pre-line}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#f4ecdc;color:#2b1d12;padding:10px 18px;border-radius:10px;font-weight:600;opacity:0;pointer-events:none;transition:.3s;z-index:20;max-width:90vw}#toast.on{opacity:1}
+</style></head><body>
+<nav><a href="#top">Library</a><a href="#app">Seat map</a><a href="#find">Find seats</a><span><i id="dot"></i><span id="hrs"></span></span></nav>
+<header class="hero" id="top">
+ <div class="win"></div><div class="shl"></div>
+ <svg class="ttl" viewBox="0 0 720 150"><path id="arc" d="M20 125Q360 0 700 125" fill="none"/><text><textPath href="#arc" startOffset="50%" text-anchor="middle">Find Your Seat</textPath></text></svg>
+ <p class="sub">SRMIST Kattankulathur · Central Library · 800 seats · pick a book to open a floor</p>
+ <div class="row" id="row"></div><div class="tbl-top"></div>
+</header>
+<main id="app">
+ <div class="stats" id="stats"></div>
+ <div class="bar2"><div id="tabs"></div><span class="sp2"></span><button class="g" id="sim">Simulate busy hours</button><button class="g" id="rst">Reset all seats</button></div>
+ <div class="cols"><section id="map"></section>
+ <aside id="find"><h3>Smart Find</h3>
+  <label>Group size <input id="n" type="number" min="1" max="6" value="1" style="width:64px"></label>
+  <label>Needs charging <input id="ch" type="checkbox"></label>
+  <label>Quiet zone preferred <input id="q" type="checkbox"></label>
+  <label>Floor <select id="fl"><option value="any">Any</option><option value="G">Ground</option><option value="1">1st</option><option value="2">2nd</option></select></label>
+  <button id="go" style="width:100%;margin-top:6px">Find seats</button><div id="res"></div></aside></div>
+ <div class="leg"><span><i style="background:#3aa76d"></i>Available</span><span><i style="background:#d9534f"></i>Occupied</span><span><i style="background:#e8a317"></i>Reserved 15 min</span><span><i style="background:#8a8f98"></i>Out of service</span><span>⚡ Charging point</span></div>
+</main>
+<dialog id="dlg"><h3 id="dt"></h3><p id="dinfo"></p>
+ <label>Registration number<input id="reg" autocomplete="off"></label><label>Name<input id="nm" autocomplete="off"></label>
+ <div class="bt"><button id="b-in">Check in</button><button id="b-rs">Reserve 15 min</button><button id="b-rl" class="g">Release</button><button id="b-os" class="g">Out of service</button><button id="b-x" class="g">Close</button></div></dialog>
+<div id="toast"></div>
+<script>
+// ---- LAYOUT: edit counts here. kind t = tables (n tables x per seats), s = single seats (n seats). ch = charging, q = quiet.
+const LAYOUT=[
+ {c:'G',name:'Ground Floor',col:'#7a1f1f',zones:[{c:'6T',name:'6-Seater Tables',kind:'t',per:6,n:20},{c:'4T',name:'4-Seater Tables',kind:'t',per:4,n:25,ch:1},{c:'SG',name:'Single Seats',kind:'s',n:80}]},
+ {c:'1',name:'1st Floor',col:'#1f4d3a',zones:[{c:'6T',name:'6-Seater Tables',kind:'t',per:6,n:15},{c:'4T',name:'4-Seater Tables',kind:'t',per:4,n:20},{c:'2T',name:'2-Seater Tables',kind:'t',per:2,n:20},{c:'SG',name:'Single Seats',kind:'s',n:90,ch:1}]},
+ {c:'2',name:'2nd Floor',col:'#0B3C8C',zones:[{c:'6T',name:'6-Seater Tables',kind:'t',per:6,n:15},{c:'EX',name:'Competitive Exam Hall',kind:'s',n:110,q:1}]},
+ {c:'3',name:'3rd Floor',col:'#555',staff:1,zones:[]}];
+const H=36e5,seats={},els={},$=s=>document.querySelector(s),pad=n=>String(n).padStart(2,'0');
+const floors=LAYOUT.map(f=>({...f,zones:f.zones.map(z=>{const per=z.kind==='s'?1:z.per,zz={...z,per,tables:[]};
+ for(let t=1;t<=z.n;t++){const tb=[];for(let k=1;k<=per;k++){const s={id:`${f.c}-${z.c}-${pad(t)}-S${k}`,f,z:zz,t,st:'a'};seats[s.id]=s;tb.push(s)}zz.tables.push(tb)}return zz})}));
+if(Object.keys(seats).length!==800)console.error('Layout has '+Object.keys(seats).length+' seats, expected 800');
+const all=()=>Object.values(seats),isOpen=()=>new Date().getHours()>=8;
+const clear=s=>{s.st='a';s.reg=s.name=s.ci=s.ru=s.w=null};
+let toastT;const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),3500)};
+// ---- persistence
+const KEY='seatState1';
+const save=()=>{const o={};all().forEach(s=>{if(s.st!=='a')o[s.id]=[s.st,s.reg,s.name,s.ci,s.ru,s.w]});try{localStorage.setItem(KEY,JSON.stringify(o))}catch(e){}};
+const load=()=>{try{const o=JSON.parse(localStorage.getItem(KEY)||'{}');for(const id in o)if(seats[id])[seats[id].st,seats[id].reg,seats[id].name,seats[id].ci,seats[id].ru,seats[id].w]=o[id]}catch(e){}};
+// ---- rules
+function member(reg,name){reg=(reg||'').trim().toUpperCase();name=(name||'').trim();
+ if(!reg)throw Error('Registration number cannot be empty.');if(!/^[A-Z0-9]+$/.test(reg))throw Error('Registration number: letters and digits only.');if(!name)throw Error('Please enter your name.');return[reg,name]}
+const mine=reg=>all().find(s=>s.reg===reg&&(s.st==='o'||s.st==='r'));
+function checkIn(id,reg,name){if(!isOpen())throw Error('Library is closed (open 8 AM to midnight).');[reg,name]=member(reg,name);const s=seats[id];
+ if(s.st==='o')throw Error('This seat is already occupied.');if(s.st==='u')throw Error('This seat is out of service.');
+ if(s.st==='r'&&s.reg!==reg)throw Error('Reserved for someone else.');const m=mine(reg);if(m&&m!==s)throw Error(reg+' already has seat '+m.id+'.');
+ Object.assign(s,{st:'o',reg,name,ci:Date.now(),ru:null,w:false})}
+function reserve(id,reg,name){if(!isOpen())throw Error('Library is closed (open 8 AM to midnight).');[reg,name]=member(reg,name);const s=seats[id];
+ if(s.st!=='a')throw Error('Seat is not available.');const m=mine(reg);if(m)throw Error(reg+' already has seat '+m.id+'.');Object.assign(s,{st:'r',reg,name,ru:Date.now()+15*6e4})}
+function tick(){const n=Date.now();let ch=0;all().forEach(s=>{if(s.st==='r'&&n>=s.ru){clear(s);ch=1}else if(s.st==='o'){const e=n-s.ci;
+ if(e>=4*H){const id=s.id;clear(s);ch=1;toast('Seat '+id+' auto-released (4 hour limit)')}else if(e>=3.75*H&&!s.w){s.w=1;ch=1;toast(s.name+', seat '+s.id+' is released in 15 minutes')}}});
+ if(ch){save();paint()}hours()}
+// ---- smart find: tightest fit wins, groups avoid strangers, quiet/charging preferences
+function find(n,ch,q,fl){const best={};floors.forEach(f=>{if(f.staff||(fl!=='any'&&f.c!==fl))return;f.zones.forEach(z=>{if(ch&&!z.ch)return;
+ z.tables.forEach((tb,i)=>{const fr=tb.filter(s=>s.st==='a');if(fr.length<n)return;let sc=100-(tb.length-n)*3;if(n>1&&fr.length<tb.length)sc-=15;
+ if(q&&z.q)sc+=20;else if(!q&&z.q)sc-=10;if(z.ch&&!ch)sc-=2;const k=f.c+z.c;if(!best[k]||sc>best[k].sc)best[k]={f,z,i,sc,seats:fr.slice(0,n)}})})});
+ return Object.values(best).sort((a,b)=>b.sc-a.sc).slice(0,5)}
+// ---- build UI
+let cur='G';
+floors.filter(f=>!f.staff).forEach(f=>{const p=document.createElement('div');p.className='panel';p.id='p'+f.c;
+ f.zones.forEach(z=>{const h=document.createElement('h3');h.textContent=z.name+(z.ch?' ⚡':'')+(z.q?' · quiet':'');z.cnt=document.createElement('small');h.append(z.cnt);p.append(h);
+  const w=document.createElement('div');w.className=z.kind==='t'?'tbs':'sg';
+  z.tables.forEach(tb=>{let box=w;if(z.kind==='t'){box=document.createElement('div');box.className='tb';box.style.gridTemplateColumns='repeat('+(z.per===6?3:z.per===4?2:z.per)+',22px)';w.append(box)}
+   tb.forEach(s=>{const b=document.createElement('button');b.className='seat';if(z.ch)b.dataset.ch=1;b.onclick=()=>openSeat(s.id);els[s.id]=b;box.append(b)})});p.append(w)});$('#map').append(p)});
+const tabs=$('#tabs');floors.filter(f=>!f.staff).forEach(f=>{const b=document.createElement('button');b.className='g';b.textContent=f.name;b.dataset.f=f.c;b.onclick=()=>show(f.c);tabs.append(b)});
+function show(c){cur=c;document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on',p.id==='p'+c));tabs.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.f===c))}
+// 3D books
+const fillers=[['Focus','#8a4b1f',230],['Revision','#4a2f6a',250],['Notes','#a07a1f',215]];
+const defs=[fillers[0],...floors,fillers[1],fillers[2]].map((b,i)=>Array.isArray(b)?{name:b[0],col:b[1],h:b[2],dec:1}:{name:b.name+(b.staff?' · Staff Only':''),col:b.col,h:275,f:b});
+defs.forEach((b,i)=>{const d=document.createElement('div');d.className='book';d.style.cssText=`--c:${b.col};--h:${b.h}px;--d:${i*.12}s`;
+ d.innerHTML=`<i class="f cv"><strong>${b.name}</strong>${b.dec?'':'<span><small class="fr"></small><div class="bar"><i></i></div></span>'}</i><i class="f bk"></i><i class="f sp"><b>${b.name}</b></i><i class="f pg"></i><i class="f tp"></i>`;
+ if(b.f){b.el=d;d.onclick=()=>{if(b.f.staff)return toast('3rd floor is staff only.');show(b.f.c);$('#app').scrollIntoView({behavior:'smooth'})}}
+ $('#row').append(d)});
+$('#top').addEventListener('mousemove',e=>$('#row').style.setProperty('--mx',(e.clientX/innerWidth-.5)*2));
+// ---- paint
+const cls={a:'seat',o:'seat o',r:'seat r',u:'seat u'},stat={a:'Available',o:'Occupied',r:'Reserved',u:'Out of service'};
+function sum(list){const o=list.filter(s=>s.st==='o').length,r=list.filter(s=>s.st==='r').length,u=list.filter(s=>s.st==='u').length,use=list.length-u;return{t:list.length,o,r,a:list.length-o-r-u,p:use?(o+r)/use*100:0}}
+function paint(){all().forEach(s=>{const e=els[s.id];if(e){const c=cls[s.st];if(e.dataset.s!==s.st){e.className=c+(e.classList.contains('fl')?' fl':'');e.dataset.s=s.st;e.title=s.id+' · '+stat[s.st]+(s.z.ch?' · charging':'')}}});
+ floors.forEach(f=>f.zones.forEach(z=>{const fr=z.tables.flat().filter(s=>s.st==='a').length;z.cnt.textContent=fr+' of '+z.tables.flat().length+' free'}));
+ const T=sum(all());$('#stats').innerHTML=[['Total seats',T.t],['Occupied',T.o],['Reserved',T.r],['Available',T.a],['Occupancy',T.p.toFixed(0)+'%']].map(x=>`<div><b>${x[1]}</b><span>${x[0]}</span></div>`).join('');
+ defs.forEach(b=>{if(b.f&&!b.f.staff){const s=sum(b.f.zones.flatMap(z=>z.tables.flat()));b.el.querySelector('.fr').textContent=s.a+' of '+s.t+' free';b.el.querySelector('.bar i').style.width=s.p+'%'}})}
+function hours(){const o=isOpen();$('#dot').className=o?'':'c';$('#hrs').textContent=o?'Open · closes midnight':'Closed · opens 8 AM'}
+// ---- seat dialog
+let sel,last={r:'',n:''};const dlg=$('#dlg');
+function openSeat(id){sel=seats[id];const s=sel,o=isOpen();$('#dt').textContent=s.id;
+ $('#dinfo').textContent=s.f.name+' · '+s.z.name+(s.z.ch?' · charging point':'')+'\nStatus: '+stat[s.st]+(s.name?'\n'+s.name+' ('+s.reg+')':'')+(s.st==='o'?'\nChecked in '+new Date(s.ci).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):'')+(s.st==='r'?'\nHeld until '+new Date(s.ru).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):'')+(o?'':'\nLibrary is closed: check-in is disabled.');
+ $('#reg').value=s.st==='r'?s.reg:last.r;$('#nm').value=s.st==='r'?s.name:last.n;
+ $('#b-in').disabled=!o||!(s.st==='a'||s.st==='r');$('#b-rs').disabled=!o||s.st!=='a';$('#b-rl').disabled=!(s.st==='o'||s.st==='r');
+ $('#b-os').disabled=!(s.st==='a'||s.st==='u');$('#b-os').textContent=s.st==='u'?'Back in service':'Out of service';dlg.showModal()}
+function run(fn,msg){try{fn();last={r:$('#reg').value.trim().toUpperCase(),n:$('#nm').value.trim()};save();paint();dlg.close();toast(msg)}catch(e){toast(e.message)}}
+$('#b-in').onclick=()=>run(()=>checkIn(sel.id,$('#reg').value,$('#nm').value),'Checked in at '+sel.id);
+$('#b-rs').onclick=()=>run(()=>reserve(sel.id,$('#reg').value,$('#nm').value),'Reserved '+sel.id+' for 15 minutes');
+$('#b-rl').onclick=()=>run(()=>clear(sel),'Released '+sel.id);
+$('#b-os').onclick=()=>run(()=>{sel.st=sel.st==='u'?'a':'u'},sel.id+' updated');
+$('#b-x').onclick=()=>dlg.close();
+// ---- find panel + demo controls
+$('#go').onclick=()=>{const n=+$('#n').value;if(!(n>=1&&n<=6))return toast('Group size must be 1 to 6.');
+ const r=find(n,$('#ch').checked,$('#q').checked,$('#fl').value),box=$('#res');box.innerHTML='';if(!r.length)return toast('No free seats match. Try fewer filters.');
+ r.forEach(m=>{const b=document.createElement('button');b.className='g';b.textContent=m.f.name+' · '+m.z.name+' · '+(m.z.kind==='t'?'Table ':'Seat ')+pad(m.i+1)+(m.z.ch?' ⚡':'');b.onclick=()=>flash(m);box.append(b)});flash(r[0])};
+function flash(m){show(m.f.c);const e=els[m.seats[0].id];e.scrollIntoView({behavior:'smooth',block:'center'});
+ m.seats.forEach(s=>{const x=els[s.id];x.classList.remove('fl');void x.offsetWidth;x.classList.add('fl');setTimeout(()=>x.classList.remove('fl'),3200)})}
+$('#sim').onclick=()=>{all().forEach(clear);const a=all().sort(()=>Math.random()-.5);a.slice(0,Math.floor(a.length*(.4+Math.random()*.3))).forEach(s=>Object.assign(s,{st:'o',reg:'DEMO'+(10000+Math.floor(Math.random()*9e4)),name:'Demo user',ci:Date.now()-Math.random()*170*6e4}));save();paint();toast('Simulated busy hours')};
+$('#rst').onclick=()=>{if(confirm('Free every seat?')){all().forEach(clear);save();paint()}};
+load();show('G');paint();hours();setInterval(tick,5000);
+</script></body></html>
